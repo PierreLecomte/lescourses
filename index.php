@@ -66,8 +66,7 @@ if (isset($_GET['fruit']) and isset($_GET['par'])) {
 } else {
 	echo "<br> Rien a modifier <br>";
 }
-
-
+/dele
 
 
 
