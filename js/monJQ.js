@@ -11,8 +11,8 @@ jQuery(function($){
 	$('#footer').load('ajax/footer.html');
 
 
-	$('.supprimer').on('click',function(){
-		var mon_id = jQuery(this).attr('data-idproduit');
+	jQuery('.supprimer').on('click',function(){
+		var mon_id = jQuery(this).attr('data-id_produit');
 		$.ajax({
 			url: "http://localhost/LesCourses/a_supprimer.php",
 			data : {id: mon_id},

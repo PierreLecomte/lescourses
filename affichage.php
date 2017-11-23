@@ -97,7 +97,7 @@ if ($req_courses) {
 		}
 		echo "</td>";
 		echo "<td>";
-		echo '<i class="fa fa-trash-o supprimer" data-idproduit='.$tab_course['id_produit'] .' aria-hidden="true"></i>';
+		echo '<i class="fa fa-trash-o supprimer" data-id_produit='.$tab_course['id_produit'] .' aria-hidden="true"></i>';
 		echo "</td>";
 	echo "</tr>";
 }
