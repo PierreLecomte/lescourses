@@ -90,13 +90,13 @@ if ($req_courses) {
 		echo "</td>";
 		echo "<td>";
 		if ($tab_course['selec'] == 1){
-			echo '<a href="?uncheck=' . $tab_course['id_produit'] . '"><i class="fa fa-check" aria-hidden="true"></i></a>';
+			echo '<a><i class="fa fa-check" aria-hidden="true"></i></a>';
 		}
 		else{
-			echo '<a href="?check=' . $tab_course['id_produit'] . '"><i class="fa fa-square-o" aria-hidden="true"></i></a>';
+			echo '<a><i class="fa fa-square-o" aria-hidden="true"></i></a>';
 		}
 		echo "</td>";
-		echo "<td><a href='?efface=" . $tab_course['id_produit'] ."'";
+		echo "<td><a>";
 		echo '<i class="fa fa-trash-o" aria-hidden="true"></i>';
 		echo "</a></td>";
 	echo "</tr>";
