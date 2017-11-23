@@ -39,3 +39,13 @@
  @import "popover";
  @import "carousel";
  @import "utilities";
+
+ #total{
+ 	display:flex;
+ 	flex-direction: row;
+
+ 	p{
+ 		padding: 5px;
+ 	}
+ 	
+ }
