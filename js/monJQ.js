@@ -11,16 +11,18 @@ jQuery(function($){
 	$('#footer').load('ajax/footer.html');
 
 
-	jQuery('.supprimer').on('click',function(){
-		var mon_id = jQuery(this).attr('data-id_produit');
+	$('.supprimer').on('click',function(){
+		var mon_id = $(this).attr('data-id_produit');
 		$.ajax({
-			url: "http://localhost/LesCourses/a_supprimer.php",
-			data : {id: mon_id},
-			dataType : 'script',
-			success: function(){
-				jQuery('tr#id_'+mon_id).remove();
-			}
-		});
+			url : 'http://localhost/LesCourses/supprimer.php',
+			//data : permet d'envoyer sous forme d'objet des données en GET à la page php
+			data : {id : mon_id},
+			dataType : 'script'
+			/*success: function(){
+				jQuery('tr#id_'+mon_id).remove();*/
+			});
 
 	});
 })
+
+

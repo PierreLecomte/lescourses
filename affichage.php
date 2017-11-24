@@ -82,12 +82,15 @@ if ($req_courses) {
 		echo "<td>";
 		echo $tab_course['id_produit'];
 		echo "</td>";
+
 		echo "<td>";
 		echo $tab_course['designation'];
 		echo "</td>";
+
 		echo "<td>";
 		echo $tab_course['quantite'];
 		echo "</td>";
+
 		echo "<td>";
 		if ($tab_course['selec'] == 1){
 			echo '<i class="fa fa-check" aria-hidden="true"></i>';
@@ -96,8 +99,9 @@ if ($req_courses) {
 			echo '<i class="fa fa-square-o" aria-hidden="true"></i>';
 		}
 		echo "</td>";
+
 		echo "<td>";
-		echo '<i class="fa fa-trash-o supprimer" data-id_produit='.$tab_course['id_produit'] .' aria-hidden="true"></i>';
+		echo '<i class="fa fa-trash-o supprimer" data-id_produit='. $tab_course['id_produit'] .' aria-hidden="true"></i>';
 		echo "</td>";
 	echo "</tr>";
 }
