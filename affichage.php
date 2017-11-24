@@ -19,7 +19,7 @@
 
 
 <?php 	
-require_once("connection.php");
+require_once("connexion.php");
 
 if (isset($_GET['efface'])){
 	$effacer_course = "DELETE FROM les_courses WHERE id_produit =" . $_GET['efface'];
