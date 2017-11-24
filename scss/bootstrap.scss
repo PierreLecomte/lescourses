@@ -49,3 +49,29 @@
  	}
  	
  }
+
+a{
+	color:#ccccff;
+}
+
+a:hover{
+	color:white;
+	}
+
+#header{
+	text-align: center;
+}
+
+ #footer{
+	position:absolute; 	
+	bottom:0;
+	width:100%;
+	text-align:center;
+	div{
+		padding:5px 0;
+	}
+ }
+
+ .fa-trash-o:hover, .fa-check:hover, .fa-square-o:hover{
+ 	cursor:pointer;
+ }

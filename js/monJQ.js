@@ -11,18 +11,50 @@ jQuery(function($){
 	$('#footer').load('ajax/footer.html');
 
 
-	$('.supprimer').on('click',function(){
-		var mon_id = $(this).attr('data-id_produit');
+	$('.fa-trash-o').click(function(){
+		var id_clic = $(this).attr('data-id_produit');
 		$.ajax({
-			url : 'http://localhost/LesCourses/supprimer.php',
+			url : 'ajax/supprimer.php',
 			//data : permet d'envoyer sous forme d'objet des données en GET à la page php
-			data : {id : mon_id},
+			data : {id : id_clic},
 			dataType : 'script'
 			/*success: function(){
-				jQuery('tr#id_'+mon_id).remove();*/
+				jQuery('#id_' + id_clic).remove();*/
 			});
 
 	});
+
+
+	$('.fa-square-o').on('click',function(){
+		var id_clic = $(this).attr('data-id_produit');
+		console.log(id_clic);
+		$.ajax({
+			url : 'ajax/cocher.php',
+			data : {id : id_clic},
+			dataType : 'script',
+			success: function(){
+				$('#id_' + id_clic + ' .fa-square-o').removeClass('fa-square-o').addClass('fa-check');
+				}
+			});
+
+	});
+
+
+	$('.fa-check').on('click',function(){
+		var id_clic = $(this).attr('data-id_produit');
+		console.log(id_clic);
+		$.ajax({
+			url : 'ajax/decocher.php',
+			data : {id : id_clic},
+			dataType : 'script',
+			success: function(){
+				$('#id_' + id_clic + ' .fa-check').removeClass('fa-check').addClass('fa-square-o');
+				}
+			});
+
+	});
+
+
 })
 
 

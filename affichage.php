@@ -45,7 +45,7 @@ $req_compte = $bdd->prepare($nb_produits_selec);
 $req_compte->execute();
 if ($req_compte) {
 	$compte = $req_compte->fetch();
-	$compte = $compte[0];
+	$compte = $compte['selection'];
 	}
 else{
 	$compte = 0;
@@ -78,30 +78,36 @@ if ($req_courses) {
     </thead>
     <tbody>
 <?php foreach($courses as $tab_course){
-	echo "<tr id='id_".$tab_course['id_produit'] ."''>";
+	$id = $tab_course['id_produit'];
+	$nom = $tab_course['designation'];
+	$quantite = $tab_course['quantite'];
+	$selec = $tab_course['selec'];
+
+
+	echo "<tr id='id_". $id ."''>";
 		echo "<td>";
-		echo $tab_course['id_produit'];
+		echo $id;
 		echo "</td>";
 
 		echo "<td>";
-		echo $tab_course['designation'];
+		echo $nom;
 		echo "</td>";
 
 		echo "<td>";
-		echo $tab_course['quantite'];
+		echo $quantite;
 		echo "</td>";
 
 		echo "<td>";
-		if ($tab_course['selec'] == 1){
-			echo '<i class="fa fa-check" aria-hidden="true"></i>';
+		if ($selec == 1){
+			echo '<i class="fa fa-check" data-id_produit='. $id .' aria-hidden="true"></i>';
 		}
 		else{
-			echo '<i class="fa fa-square-o" aria-hidden="true"></i>';
+			echo '<i class="fa fa-square-o" data-id_produit='. $id .' aria-hidden="true"></i>';
 		}
 		echo "</td>";
 
 		echo "<td>";
-		echo '<i class="fa fa-trash-o supprimer" data-id_produit='. $tab_course['id_produit'] .' aria-hidden="true"></i>';
+		echo '<i class="fa fa-trash-o" data-id_produit='. $id .' aria-hidden="true"></i>';
 		echo "</td>";
 	echo "</tr>";
 }
