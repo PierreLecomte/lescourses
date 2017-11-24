@@ -40,17 +40,6 @@ if (isset($_GET['uncheck'])){
 }
 
 
-$nb_produits_selec = "SELECT SUM(quantite) as selection FROM les_courses WHERE selec=1";
-$req_compte = $bdd->prepare($nb_produits_selec);
-$req_compte->execute();
-if ($req_compte) {
-	$compte = $req_compte->fetch();
-	$compte = $compte['selection'];
-	}
-else{
-	$compte = 0;
-} 
-
 $afficher_courses = "SELECT * FROM les_courses";
 $req_courses = $bdd->prepare($afficher_courses);
 $req_courses->execute();
@@ -84,7 +73,7 @@ if ($req_courses) {
 	$selec = $tab_course['selec'];
 
 
-	echo "<tr id='id_". $id ."''>";
+	echo "<tr id='id_". $id ."'>";
 		echo "<td>";
 		echo $id;
 		echo "</td>";
@@ -117,7 +106,7 @@ if ($req_courses) {
 
 <div id="total">
 	<p>Nombre de produits sélectionnés : </p>
-	<p><?php echo isset($compte)? $compte : 0 ; ?></p>
+	<p id="nb_produits"><?php echo nb_total($bdd); ?></p>
 </div>
 
 </div>
