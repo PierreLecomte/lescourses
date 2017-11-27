@@ -8,11 +8,10 @@ if (isset($_GET['id'])) {
 
 	$requete = "DELETE FROM les_courses WHERE id_produit = $id_produit";
 	
-	/* if(!$bdd->query($requete)) {
+	if(!$bdd->query($requete)) {
 		print_r($bdd->errorInfo());
-		}*/
+		}
 
-	echo "console.log(" . $id_produit . ");";
-	echo "jQuery('#id_" . $id_produit . "').remove();";
+	echo nb_total();
 
 }

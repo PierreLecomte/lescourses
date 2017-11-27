@@ -4,12 +4,14 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-	<!-- Pour utiliser jquery-ui : <link rel="stylesheet" type="text/css" href="jquery-ui/jquery-ui.css"> -->
+	<!-- Pour utiliser jquery-ui :  -->
+	<link rel="stylesheet" type="text/css" href="jquery-ui/jquery-ui.css">
 	<!-- Pour utiliser DateTables : <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.min.css"> -->
 	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<script src="js/jquery.min.js" type="text/javascript"></script>
-	<!-- Pour utiliser jquery-ui : <script src="jquery-ui/jquery-ui.min.js" type="text/javascript"></script> -->
+	<!-- Pour utiliser jquery-ui : -->
+	<script src="jquery-ui/jquery-ui.min.js" type="text/javascript"></script> 
 	<!-- Pour utiliser DateTables : <script src="js/jquery.dataTables.min.js" type="text/javascript"></script> -->
 	<script src="js/monJQ.js" type="text/javascript"></script>
 	
@@ -48,74 +50,88 @@ if ($req_courses) {
 	/*echo "<pre>";
 	var_dump($courses);
 	echo "</pre>";*/
-?>
+	?>
 
 
-<body>
+	<body>
 
-<div class="container">
-  <h2 class="text-center p-5">Ma liste de courses</h2>
-  <table class="table table-striped text-center">
-    <thead>
-     <tr>
-        <th>ID_Produit</th>
-        <th>Désignation</th>
-        <th>Quantité</th>
-        <th>Sélection</th>
-        <th>Supprimer</th>
-      </tr>
-    </thead>
-    <tbody>
-<?php foreach($courses as $tab_course){
-	$id = $tab_course['id_produit'];
-	$nom = $tab_course['designation'];
-	$quantite = $tab_course['quantite'];
-	$selec = $tab_course['selec'];
-
-
-	echo "<tr id='id_". $id ."'>";
-		echo "<td>";
-		echo $id;
-		echo "</td>";
-
-		echo "<td>";
-		echo $nom;
-		echo "</td>";
-
-		echo "<td>";
-		echo $quantite;
-		echo "</td>";
-
-		echo "<td>";
-		if ($selec == 1){
-			echo '<i class="fa fa-check" data-id_produit='. $id .' aria-hidden="true"></i>';
-		}
-		else{
-			echo '<i class="fa fa-square-o" data-id_produit='. $id .' aria-hidden="true"></i>';
-		}
-		echo "</td>";
-
-		echo "<td>";
-		echo '<i class="fa fa-trash-o" data-id_produit='. $id .' aria-hidden="true"></i>';
-		echo "</td>";
-	echo "</tr>";
-}
-?>
-    </tbody>
-  </table>
-
-<div id="total">
-	<p>Nombre de produits sélectionnés : </p>
-	<p id="nb_produits"><?php echo nb_total($bdd); ?></p>
-</div>
-
-</div>
+		<div class="container">
+			<h2 class="text-center p-5">Ma liste de courses</h2>
+			<table class="table table-striped text-center">
+				<thead>
+					<tr>
+						<th>ID_Produit</th>
+						<th>Désignation</th>
+						<th>Quantité</th>
+						<th>Sélection</th>
+						<th>Supprimer</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach($courses as $tab_course){
+						$id = $tab_course['id_produit'];
+						$nom = $tab_course['designation'];
+						$quantite = $tab_course['quantite'];
+						$selec = $tab_course['selec'];
 
 
+						echo "<tr id='id_". $id ."'>";
+						echo "<td>";
+						echo $id;
+						echo "</td>";
 
-<?php
-}
-?>
+						echo "<td>";
+						echo $nom;
+						echo "</td>";
+
+						echo "<td>";
+						echo $quantite;
+						echo "</td>";
+
+						echo "<td>";
+						if ($selec == 1){
+							echo '<i class="fa fa-check fcn_decocher" data-id_produit='. $id .' aria-hidden="true"></i>';
+						}
+						else{
+							echo '<i class="fa fa-square-o fcn_cocher" data-id_produit='. $id .' aria-hidden="true"></i>';
+						}
+						echo "</td>";
+
+						echo "<td>";
+						echo '<i class="fa fa-trash-o fcn_supprimer" data-id_produit='. $id .' aria-hidden="true"></i>';
+						echo "</td>";
+						echo "</tr>";
+					}
+					?>
+				</tbody>
+			</table>
+
+			<div id="total">
+				<p>Nombre de produits sélectionnés : </p>
+				<p id="nb_produits"><?php echo nb_total($bdd); ?></p>
+			</div>
+
+			<form id="form_ajouter" class="col-sm-6">
+				<h3>Ajouter un produit</h3>
+				<div class="form-group">
+					<label class="col-form-label" for="form_designation">Désignation</label>
+					<input type="text" minlength="3" class="form-control" id="form_designation" placeholder="Entrer un nouveau produit">
+				</div>
+				<div class="form-group">
+					<label class="col-form-label" for="curseur_quantite">Quantité</label>
+					<div id="slider_quantite">
+						<div id="curseur_quantite" class="ui-slider-handle"></div>
+					</div>
+				</div>
+				<button type="submit" class="btn btn-primary float-right">Ajouter</button>
+			</form>
+
+		</div>
+
+
+		<?php
+	}
+	?>
 
 
 </body>

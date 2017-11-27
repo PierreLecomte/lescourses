@@ -8,6 +8,6 @@ $requete = "UPDATE les_courses SET selec = 1 WHERE id_produit = $id_choisi";
 $envoi = $bdd->prepare($requete);
 $envoi->execute();
 
-echo "$('#nb_produits').text(" . nb_total($bdd) . ")";
+echo nb_total();
 
 ?>

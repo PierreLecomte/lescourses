@@ -1,7 +1,8 @@
 <?php
 $bdd = new PDO('mysql:host=localhost;dbname=formation;charset=utf8', 'root', '');
 
-function nb_total(PDO $bdd){
+function nb_total(){
+	global $bdd;
 	$nb_produits_selec = "SELECT SUM(quantite) as selection FROM les_courses WHERE selec=1";
 	$req_compte = $bdd->prepare($nb_produits_selec);
 	$req_compte->execute();
