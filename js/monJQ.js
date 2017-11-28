@@ -1,7 +1,7 @@
 jQuery(function($) {
 
 
-// Instanciation du slider #slider et de son curseur #curseur_quantite
+	// Instanciation du slider #slider_quantite et de son curseur #curseur_quantite
 	var handle = $( "#curseur_quantite" );
 	$( "#slider_quantite" ).slider({
 		max: 10,
@@ -29,7 +29,7 @@ jQuery(function($) {
 		
 
 	// Lorsqu'on clique sur une case ou la corbeille, on récupère l'id de la ligne via data-id_produit et on lance une requete ajax
-	$('.fcn_supprimer').on('click', function(){
+	$('table').on('click', '.fcn_supprimer', function(){
 		var id_clic = $(this).attr('data-id_produit');
 		$.ajax({
 			url : 'ajax/supprimer.php',
@@ -43,7 +43,7 @@ jQuery(function($) {
 		});
 	});
 
-	$('td').on('click', '.fcn_cocher', function(){
+	$('table').on('click', '.fcn_cocher', function(){
 		var id_clic = $(this).attr('data-id_produit');
 		$.ajax({
 			url : 'ajax/cocher.php',
@@ -57,7 +57,7 @@ jQuery(function($) {
 	});
 
 
-	$('td').on('click', '.fcn_decocher', function(){
+	$('table').on('click', '.fcn_decocher', function(){
 		var id_clic = $(this).attr('data-id_produit');
 		$.ajax({
 			url : 'ajax/decocher.php',
@@ -71,7 +71,39 @@ jQuery(function($) {
 	});
 
 
+// Modification de la quantité lorsqu'on clique sur les boutons - / +
+// On récupère la valeur de l'attribut "bouton quantite" pour savoir s'il faut ajouter ou retirer un produit
+// Une fois la requête AJAX exécutée, on met à jour les attributs des boutons de la ligne modifiée avec la nouvelle quantité
+
+$("table").on('click', 'i[bouton-quantite]', function(){
+	var id_clic = $(this).attr('data-id_produit');
+	var nouvelle_quantite = parseInt($(this).attr('data-quantite'));
+	if ($(this).attr('bouton-quantite')==1){
+		nouvelle_quantite -- ;
+	}
+	else if ($(this).attr('bouton-quantite')==2){
+		nouvelle_quantite ++;
+	}
+		$.ajax({
+			url : 'ajax/modif_quantite.php',
+			data : {
+				id : id_clic,
+				quantite : nouvelle_quantite
+			},
+			dataType : 'text',
+			success: function($nb){
+				$('#nb_produits').text($nb);
+				$('tr#id_' + id_clic + ' .colonne_quantite span').text(nouvelle_quantite);
+				$('tr#id_' + id_clic + ' .colonne_quantite i').attr('data-quantite',nouvelle_quantite);
+			}
+		});
+})
+
+
 	//	Ajout d'une nouvelle ligne lorsqu'on valide le formulaire
+	//  On récupère la valeur du slider pour la quantité
+	// 	Une fois la requête AJAX exécutée, on affiche une nouvelle ligne retournée par le script en html
+	// 	Puis on réinitialise les valeurs du formulaire
 	$("#form_ajouter button[type=submit]").click(function(e){
 		e.preventDefault();
 		form_quantite = $( "#slider_quantite" ).slider( "value" );
@@ -85,14 +117,12 @@ jQuery(function($) {
 			dataType : 'html',
 			success: function($ligne){
 				$('table').append($ligne);
-				$('#slider_quantite').slider( "value",0 );
+				$('#slider_quantite').slider( "value", 0);
 				$('#form_designation').val("");
+				$('#curseur_quantite').text('0');
 			}
 		});
 	});
-
-
-
 
 })
 

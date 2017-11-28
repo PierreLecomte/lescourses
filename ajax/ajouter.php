@@ -15,9 +15,12 @@ if (isset($_GET['designation']) && isset($_GET['quantite'])) {
 	:quantite
 );";
 
+$designation = trim($_GET['designation']);
+$quantite = intval(trim($_GET['quantite']));
+
 $ajout = $bdd->prepare($req_ajout);
-$ajout->bindParam(':designation', $_GET['designation']);
-$ajout->bindParam(':quantite', $_GET['quantite']);
+$ajout->bindParam(':designation', $designation);
+$ajout->bindParam(':quantite', $quantite);
 $validation = $ajout->execute();
 
 if(!$validation) {
@@ -35,32 +38,7 @@ if ($afficher->execute()) {
 	$quantite = $course['quantite'];
 	$selec = $course['selec'];
 
-	echo "<tr id='id_". $id ."'>";
-	echo "<td>";
-	echo $id;
-	echo "</td>";
-
-	echo "<td>";
-	echo $nom;
-	echo "</td>";
-
-	echo "<td>";
-	echo $quantite;
-	echo "</td>";
-
-	echo "<td>";
-	if ($selec == 1){
-		echo '<i class="fa fa-check fcn_decocher" data-id_produit='. $id .' aria-hidden="true"></i>';
-	}
-	else{
-		echo '<i class="fa fa-square-o fcn_cocher" data-id_produit='. $id .' aria-hidden="true"></i>';
-	}
-	echo "</td>";
-
-	echo "<td>";
-	echo '<i class="fa fa-trash-o fcn_supprimer" data-id_produit='. $id .' aria-hidden="true"></i>';
-	echo "</td>";
-	echo "</tr>";
+	afficher_ligne($id, $nom, $quantite, $selec);
 }
 
 }

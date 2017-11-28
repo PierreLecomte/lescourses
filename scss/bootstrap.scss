@@ -72,7 +72,7 @@ a:hover{
 	}
  }
 
- .fa-trash-o:hover, .fa-check:hover, .fa-square-o:hover{
+ .fa-trash-o:hover, .fa-check:hover, .fa-square-o:hover, .fa-minus:hover, .fa-plus:hover{
  	cursor:pointer;
  }
 
@@ -83,4 +83,9 @@ a:hover{
     margin-top: -.8em;
     text-align: center;
     line-height: 1.6em;
+  }
+
+  i.fa-minus, i.fa-plus {
+  	font-size:10px;
+  	padding:5px;
   }

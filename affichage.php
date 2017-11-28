@@ -74,33 +74,8 @@ if ($req_courses) {
 						$quantite = $tab_course['quantite'];
 						$selec = $tab_course['selec'];
 
+						afficher_ligne($id, $nom, $quantite, $selec);
 
-						echo "<tr id='id_". $id ."'>";
-						echo "<td>";
-						echo $id;
-						echo "</td>";
-
-						echo "<td>";
-						echo $nom;
-						echo "</td>";
-
-						echo "<td>";
-						echo $quantite;
-						echo "</td>";
-
-						echo "<td>";
-						if ($selec == 1){
-							echo '<i class="fa fa-check fcn_decocher" data-id_produit='. $id .' aria-hidden="true"></i>';
-						}
-						else{
-							echo '<i class="fa fa-square-o fcn_cocher" data-id_produit='. $id .' aria-hidden="true"></i>';
-						}
-						echo "</td>";
-
-						echo "<td>";
-						echo '<i class="fa fa-trash-o fcn_supprimer" data-id_produit='. $id .' aria-hidden="true"></i>';
-						echo "</td>";
-						echo "</tr>";
 					}
 					?>
 				</tbody>
@@ -111,28 +86,47 @@ if ($req_courses) {
 				<p id="nb_produits"><?php echo nb_total($bdd); ?></p>
 			</div>
 
-			<form id="form_ajouter" class="col-sm-6">
-				<h3>Ajouter un produit</h3>
-				<div class="form-group">
-					<label class="col-form-label" for="form_designation">Désignation</label>
-					<input type="text" minlength="3" class="form-control" id="form_designation" placeholder="Entrer un nouveau produit">
-				</div>
-				<div class="form-group">
-					<label class="col-form-label" for="curseur_quantite">Quantité</label>
-					<div id="slider_quantite">
-						<div id="curseur_quantite" class="ui-slider-handle"></div>
+
+
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalAjoutProduit">
+				Ajouter une ligne
+			</button>
+
+			<!-- Modal -->
+			<div class="modal fade" id="ModalAjoutProduit" tabindex="-1" role="dialog" aria-labelledby="ModalTitre" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="ModalTitre">Ajouter un produit</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<form id="form_ajouter" class="col-sm">
+								<h3>Ajouter un produit</h3>
+								<div class="form-group">
+									<label class="col-form-label" for="form_designation">Désignation</label>
+									<input type="text" minlength="3" class="form-control" id="form_designation" placeholder="Entrer un nouveau produit">
+								</div>
+								<div class="form-group">
+									<label class="col-form-label" for="curseur_quantite">Quantité</label>
+									<div id="slider_quantite">
+										<div id="curseur_quantite" class="ui-slider-handle"></div>
+									</div>
+								</div>
+								<button type="submit" class="btn btn-primary float-right">Ajouter</button>
+								<button type="button" class="btn btn-secondary float-right mr-2" data-dismiss="modal">Fermer</button>
+							</form>
+						</div>
 					</div>
 				</div>
-				<button type="submit" class="btn btn-primary float-right">Ajouter</button>
-			</form>
-
+			</div>
 		</div>
-
 
 		<?php
 	}
 	?>
-
 
 </body>
 
