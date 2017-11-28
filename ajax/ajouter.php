@@ -23,11 +23,20 @@ if (isset($_GET['designation']) && isset($_GET['quantite'])) {
 	$validation = $ajout->execute();
 
 	if(!$validation) {
-		print_r($ajout->errorInfo()[2]);
+		//print_r($ajout->errorInfo()[2]);
 	}
 
-	$id = $bdd->lastInsertId(); 
-	afficher_ligne($id, $designation, $quantite, 0);
+	$id = $bdd->lastInsertId();
+
+	$data = array(
+	"ligne" => afficher_ligne($id, $designation, $quantite, 0),
+	"nb_selec" => nb_selec(),
+	"nb_total" => nb_total()
+	);
+
+	echo json_encode($data);
+
+	
 
 	
 }

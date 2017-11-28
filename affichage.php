@@ -23,6 +23,8 @@
 <?php 	
 require_once("connexion.php");
 
+// Modifications des données en GET
+
 if (isset($_GET['efface'])){
 	$effacer_course = "DELETE FROM les_courses WHERE id_produit =" . $_GET['efface'];
 	$req_efface = $bdd->prepare($effacer_course);
@@ -41,12 +43,12 @@ if (isset($_GET['uncheck'])){
 	$req_uncheck->execute();
 }
 
-
 $afficher_courses = "SELECT * FROM les_courses";
 $req_courses = $bdd->prepare($afficher_courses);
 $req_courses->execute();
 if ($req_courses) {
 	$courses = $req_courses->fetchAll();
+	
 	/*echo "<pre>";
 	var_dump($courses);
 	echo "</pre>";*/
@@ -61,8 +63,8 @@ if ($req_courses) {
 				<thead>
 					<tr>
 						<th>ID_Produit</th>
-						<th>Désignation<i class="fa fa-sort ml-2" aria-hidden="true"></i></th>
-						<th>Quantité<i class="fa fa-sort ml-2" aria-hidden="true"></i></th>
+						<th>Désignation<i class="fa fa-sort ml-2" tri="designation" aria-hidden="true"></i></th>
+						<th>Quantité<i class="fa fa-sort ml-2" tri="quantite" aria-hidden="true"></i></th>
 						<th>Sélection</th>
 						<th>Supprimer</th>
 					</tr>
@@ -74,23 +76,24 @@ if ($req_courses) {
 						$quantite = $tab_course['quantite'];
 						$selec = $tab_course['selec'];
 
-						afficher_ligne($id, $nom, $quantite, $selec);
-
+						echo afficher_ligne($id, $nom, $quantite, $selec);
 					}
 					?>
 				</tbody>
 			</table>
 
 			<div id="total">
-				<p>Nombre de produits sélectionnés : </p>
-				<p id="nb_produits"><?php echo nb_total($bdd); ?></p>
-			</div>
-
-
-
-			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalAjoutProduit">
+				<p>Nombre de produits sélectionnés : 
+					<span id="nb_produits"><?php echo nb_selec($bdd); ?></span>
+				</p>
+				<p>Nombre total de produits : 
+					<span id="total_produits"><?php echo nb_total($bdd); ?></span>
+				</p>
+				<button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#ModalAjoutProduit">
 				Ajouter une ligne
 			</button>
+			</div>
+
 
 			<!-- Modal -->
 			<div class="modal fade" id="ModalAjoutProduit" tabindex="-1" role="dialog" aria-labelledby="ModalTitre" aria-hidden="true">

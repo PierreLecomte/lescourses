@@ -43,9 +43,15 @@
  #total{
  	display:flex;
  	flex-direction: row;
+ 	justify-content:space-around;
+ 	align-items:center;
+ 	color:white;
 
  	p{
- 		padding: 5px;
+ 		padding: 10px;
+ 		margin:5px;
+ 		background-color:#568d69;
+ 		border-radius: 0.2em;
  	}
  	
  }
@@ -72,7 +78,7 @@ a:hover{
 	}
  }
 
- .fa-trash-o:hover, .fa-check:hover, .fa-square-o:hover, .fa-minus:hover, .fa-plus:hover{
+ .fa-trash-o:hover, .fa-check:hover, .fa-square-o:hover, .fa-minus:hover, .fa-plus:hover, .fa-pencil:hover, .fa-sort:hover{
  	cursor:pointer;
  }
 

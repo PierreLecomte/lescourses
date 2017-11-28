@@ -9,6 +9,11 @@ $requete = "UPDATE les_courses SET quantite = $quantite_modifiee WHERE id_produi
 $envoi = $bdd->prepare($requete);
 $envoi->execute();
 
-echo nb_total();
+$data = array(
+	"nb_selec" => nb_selec(),
+	"nb_total" => nb_total()
+);
+
+echo json_encode($data);
 
 ?>

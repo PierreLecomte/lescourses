@@ -12,6 +12,11 @@ if (isset($_GET['id'])) {
 		print_r($bdd->errorInfo());
 		}
 
-	echo nb_total();
+$data = array(
+	"nb_selec" => nb_selec(),
+	"nb_total" => nb_total()
+);
+
+echo json_encode($data);
 
 }
