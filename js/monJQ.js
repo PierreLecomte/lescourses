@@ -75,13 +75,13 @@ jQuery(function($) {
 // On récupère la valeur de l'attribut "bouton quantite" pour savoir s'il faut ajouter ou retirer un produit
 // Une fois la requête AJAX exécutée, on met à jour les attributs des boutons de la ligne modifiée avec la nouvelle quantité
 
-$("table").on('click', 'i[bouton-quantite]', function(){
+$("table").on('click', 'i[data-bouton-quantite]', function(){
 	var id_clic = $(this).attr('data-id_produit');
 	var nouvelle_quantite = parseInt($(this).attr('data-quantite'));
-	if ($(this).attr('bouton-quantite')==1){
+	if ($(this).attr('data-bouton-quantite')==1){
 		nouvelle_quantite -- ;
 	}
-	else if ($(this).attr('bouton-quantite')==2){
+	else if ($(this).attr('data-bouton-quantite')==2){
 		nouvelle_quantite ++;
 	}
 		$.ajax({

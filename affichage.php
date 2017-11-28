@@ -61,8 +61,8 @@ if ($req_courses) {
 				<thead>
 					<tr>
 						<th>ID_Produit</th>
-						<th>Désignation</th>
-						<th>Quantité</th>
+						<th>Désignation<i class="fa fa-sort ml-2" aria-hidden="true"></i></th>
+						<th>Quantité<i class="fa fa-sort ml-2" aria-hidden="true"></i></th>
 						<th>Sélection</th>
 						<th>Supprimer</th>
 					</tr>
