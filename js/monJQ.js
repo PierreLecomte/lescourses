@@ -28,6 +28,66 @@ jQuery(function($) {
 	// $('.parent').on('click','fa', function(){
 		
 
+function afficher_ligne(id, nom, quantite, selec){
+
+	var ligne =  "<tr id='id_" + id +"'>";
+	ligne += "<td>";
+	ligne += id;
+	ligne += "</td>";
+
+	ligne += "<td class='colonne_designation'>";
+	ligne += "<span>" + nom + "</span>";
+	ligne += "<i class='fa fa-pencil float-right fcn_modifier' data-id_produit='" + id + "' aria-hidden='true'></i></td>";
+
+// Pour pouvoir modifier les quantités en AJAX, on encapsule la quantite affichée dans une classe colonne_quantite, et on crée sur les boutons des attributs bouton-quantite, data-quantite et data-id_produit
+	ligne += "<td class='colonne_quantite'>";
+	ligne += '<i class="fa fa-minus" data-quantite=' + quantite + ' data-id_produit=' + id + ' data-bouton-quantite=1 aria-hidden="true" ></i>';
+	ligne += "<span>" + quantite + "</span>";
+	ligne += '<i class="fa fa-plus" data-quantite=' + quantite + ' data-id_produit=' + id + ' data-bouton-quantite=2 aria-hidden="true" ></i>';
+	ligne += "</td>";
+
+
+// De même, pour cocher, décocher et supprimer les lignes en AJAX, on crée sur les boutons des attributs data-id_produit
+
+	ligne += "<td>";
+	if (selec == 1){
+		ligne += '<i class="fa fa-check fcn_decocher" data-id_produit=' + id + ' aria-hidden="true"></i>';
+	}
+	else{
+		ligne += '<i class="fa fa-square-o fcn_cocher" data-id_produit=' + id + ' aria-hidden="true"></i>';
+	}
+	ligne += "</td>";
+
+	ligne += "<td>";
+	ligne += '<i class="fa fa-trash-o fcn_supprimer" data-id_produit=' + id + ' aria-hidden="true"></i>';
+	ligne += "</td>";
+	ligne += "</tr>";
+	$('table tbody').append(ligne);
+}
+
+
+// Pour charger le tableau en jQuery
+$("h2").click(function(){
+	choix_tri = $("table").attr('data-tri');
+	choix_ordre = $("table").attr('data-ordre');
+		$.ajax({
+			url : 'ajax/trier.php',
+			data : {
+				tri : choix_tri,
+				ordre : choix_ordre
+			},
+			dataType : 'json',
+			success: function(donnees_retour){
+				//console.log(donnees_retour['tableau']);
+				$('table tbody').html("");
+				$.each(donnees_retour.tableau, function(index, valeur){
+					afficher_ligne(valeur['id_produit'],valeur['designation'],valeur['quantite'],valeur['selec']);
+				});
+			}
+		});
+	});
+
+
 	// Lorsqu'on clique sur une case ou la corbeille, on récupère l'id de la ligne via data-id_produit et on lance une requete ajax
 	$('table').on('click', '.fcn_supprimer', function(){
 		var id_clic = $(this).attr('data-id_produit');
@@ -38,8 +98,8 @@ jQuery(function($) {
 			dataType : 'json',
 			success: function(donnees_retour){
 				$('tr#id_' + id_clic).remove();
-				$('#nb_produits').text(donnees_retour['nb_selec']);
-				$('#total_produits').text(donnees_retour['nb_total']);
+				$('#nb_produits').text(donnees_retour.nb_selec);
+				$('#total_produits').text(donnees_retour.nb_total);
 			}
 		});
 	});
@@ -52,8 +112,8 @@ jQuery(function($) {
 			dataType : 'json',
 			success: function(donnees_retour){
 				$('tr#id_' + id_clic + ' .fa-square-o').toggleClass('fa-square-o fa-check').toggleClass('fcn_cocher fcn_decocher');
-				$('#nb_produits').text(donnees_retour['nb_selec']);
-				$('#total_produits').text(donnees_retour['nb_total']);
+				$('#nb_produits').text(donnees_retour.nb_selec);
+				$('#total_produits').text(donnees_retour.nb_total);
 			}
 		});
 	});
@@ -67,8 +127,8 @@ jQuery(function($) {
 			dataType : 'json',
 			success: function(donnees_retour){
 				$('tr#id_' + id_clic + ' .fa-check').toggleClass('fa-check fa-square-o').toggleClass('fcn_decocher fcn_cocher');
-				$('#nb_produits').text(donnees_retour['nb_selec']);
-				$('#total_produits').text(donnees_retour['nb_total']);
+				$('#nb_produits').text(donnees_retour.nb_selec);
+				$('#total_produits').text(donnees_retour.nb_total);
 			}
 		});
 	});
@@ -95,8 +155,8 @@ jQuery(function($) {
 			},
 			dataType : 'json',
 			success: function(donnees_retour){
-				$('#nb_produits').text(donnees_retour['nb_selec']);
-				$('#total_produits').text(donnees_retour['nb_total']);
+				$('#nb_produits').text(donnees_retour.nb_selec);
+				$('#total_produits').text(donnees_retour.nb_total);
 				$('tr#id_' + id_clic + ' .colonne_quantite span').text(nouvelle_quantite);
 				$('tr#id_' + id_clic + ' .colonne_quantite i').attr('data-quantite',nouvelle_quantite);
 			}
@@ -120,9 +180,9 @@ jQuery(function($) {
 			},
 			dataType : 'json',
 			success: function(donnees_retour){
-				$('table').append(donnees_retour['ligne']);
-				$('#nb_produits').text(donnees_retour['nb_selec']);
-				$('#total_produits').text(donnees_retour['nb_total']);
+				$('table tbody').append(donnees_retour.ligne);
+				$('#nb_produits').text(donnees_retour.nb_selec);
+				$('#total_produits').text(donnees_retour.nb_total);
 				$('#form_designation').val("");
 				$('#slider_quantite').slider( "value", 0);
 				$('#curseur_quantite').text('0');
@@ -175,9 +235,6 @@ jQuery(function($) {
 				designation : nouvelle_designation
 			},
 			dataType : 'text',
-			success: function(){
-				$('tr#id_' + id_clic + ' .fa-square-o').toggleClass('fa-square-o fa-check').toggleClass('fcn_cocher fcn_decocher');
-			}
 		});
 		var champ_remplacement = '<span>' + nouvelle_designation + '</span>';
 		champ_remplacement += "<i class='fa fa-pencil float-right fcn_modifier' data-id_produit=" + id_clic + " aria-hidden='true'></i>";
@@ -186,25 +243,68 @@ jQuery(function($) {
 
 
 	// Modification de l'ordre du tableau
-	$("table").on("click","i[tri]", function(){
-		choix_tri = $(this).attr('tri');
+	$("table").on("click","i[data-tri]", function(){
+		choix_tri = $(this).attr('data-tri');
+		choix_ordre = $(this).hasClass('ord-asc') ? 'ASC' : 'DESC' ;
 		$.ajax({
 			url : 'ajax/trier.php',
 			data : {
 				tri : choix_tri,
+				ordre : choix_ordre
 			},
 			dataType : 'json',
 			success: function(donnees_retour){
 				//console.log(donnees_retour['tableau']);
 				$('table tbody').html("");
-				$.each(donnees_retour['tableau'], function(index, valeur){
-					console.log(valeur);
-					$('table tbody').append(valeur);
-
+				$.each(donnees_retour.tableau, function(index, valeur){
+					afficher_ligne(valeur['id_produit'],valeur['designation'],valeur['quantite'],valeur['selec']);
 				});
 			}
 		});
+	// On récupère la colonne triée en attribut de la balise table
+	// On intervertit la classe ord-xx du bouton afin de pouvoir inverser l'ordre lors du prochain clic
+		$("table").attr('data-tri',choix_tri);
+		if (choix_ordre == 'ASC'){
+			$(this).toggleClass('ord-asc ord-desc');
+		}
+		else {
+			$(this).toggleClass('ord-desc ord-asc');
+		}
 	});
+
+
+	// Autocomplete lorsqu'on écrit dans le champ "désignation"
+
+	    var availableTags = [
+      "ActionScript",
+      "AppleScript",
+      "Asp",
+      "BASIC",
+      "C",
+      "C++",
+      "Clojure",
+      "COBOL",
+      "ColdFusion",
+      "Erlang",
+      "Fortran",
+      "Groovy",
+      "Haskell",
+      "Java",
+      "JavaScript",
+      "Lisp",
+      "Perl",
+      "PHP",
+      "Python",
+      "Ruby",
+      "Scala",
+      "Scheme"
+    ];
+    $( "#tags" ).autocomplete({
+      source: availableTags
+    });
+
+});
+
 
 })
 

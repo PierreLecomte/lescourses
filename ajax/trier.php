@@ -1,16 +1,14 @@
 <?php
 require_once('../connexion.php');
 
-if (isset($_GET['tri'])) {
+if (isset($_GET['tri']) && isset($_GET['ordre'])) {
 
-	// intval : remplace par 0 si ce n'est pas un nombre
-
-	$req_tri = "SELECT * FROM les_courses ORDER BY :tri";
-			
 	$tri = trim($_GET['tri']);
-
+	$ordre = trim($_GET['ordre']);
+	$req_tri = "SELECT * FROM les_courses ORDER BY $tri $ordre";
+	
+	
 	$requete = $bdd->prepare($req_tri);
-	$requete->bindParam(':tri', $tri, PDO::PARAM_STR);
 	$resultat = $requete->execute();
 
 	if(!$resultat) {
@@ -21,9 +19,26 @@ if (isset($_GET['tri'])) {
 
 	$T_affichage = array();
 
+
+/* Si on veut envoyer le tableau formaté en JSON
 	foreach($T_resultat as $ligne){
 		$T_affichage[] = afficher_ligne($ligne['id_produit'],$ligne['designation'],$ligne['quantite'],$ligne['selec']);
 	}
+
+*/
+
+// Si on veut envoyer seulement les données en JSON
+	foreach($T_resultat as $ligne){
+		$T_affichage[] = array(
+			'id_produit' => $ligne['id_produit'],
+			'designation' => $ligne['designation'],
+			'quantite' => $ligne['quantite'],
+			'selec' => $ligne['selec']);
+	}
+
+	/*echo"<br><br>";
+	var_dump($T_affichage);
+	echo"<br><br>";*/
 
 	$data = array(
 	"tableau" => $T_affichage,

@@ -48,7 +48,7 @@ $req_courses = $bdd->prepare($afficher_courses);
 $req_courses->execute();
 if ($req_courses) {
 	$courses = $req_courses->fetchAll();
-	
+
 	/*echo "<pre>";
 	var_dump($courses);
 	echo "</pre>";*/
@@ -58,18 +58,24 @@ if ($req_courses) {
 	<body>
 
 		<div class="container">
+			<div class="ui-widget">
+  <label for="tags">Tags: </label>
+  <input id="tags">
+</div>
 			<h2 class="text-center p-5">Ma liste de courses</h2>
-			<table class="table table-striped text-center">
+			<table class="table table-striped text-center" data-tri="designation" data-ordre="ASC">
 				<thead>
 					<tr>
 						<th>ID_Produit</th>
-						<th>Désignation<i class="fa fa-sort ml-2" tri="designation" aria-hidden="true"></i></th>
-						<th>Quantité<i class="fa fa-sort ml-2" tri="quantite" aria-hidden="true"></i></th>
-						<th>Sélection</th>
+						<th>Désignation<i class="fa fa-sort ml-2 ord-asc" data-tri="designation" aria-hidden="true"></i></th>
+						<th>Quantité</i></th>
+						<th>Sélection<i class="fa fa-sort ml-2 ord-asc" data-tri="selec"  aria-hidden="true"></th>
 						<th>Supprimer</th>
 					</tr>
 				</thead>
 				<tbody>
+
+					<!--
 					<?php foreach($courses as $tab_course){
 						$id = $tab_course['id_produit'];
 						$nom = $tab_course['designation'];
@@ -78,7 +84,7 @@ if ($req_courses) {
 
 						echo afficher_ligne($id, $nom, $quantite, $selec);
 					}
-					?>
+					?> -->
 				</tbody>
 			</table>
 
