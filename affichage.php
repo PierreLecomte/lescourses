@@ -4,12 +4,12 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-	<!-- Pour utiliser jquery-ui : <link rel="stylesheet" type="text/css" href="jquery-ui/jquery-ui.css"> -->
+	<link rel="stylesheet" type="text/css" href="jquery-ui/jquery-ui.css">
 	<!-- Pour utiliser DateTables : <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.min.css"> -->
 	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<script src="js/jquery.min.js" type="text/javascript"></script>
-	<!-- Pour utiliser jquery-ui : <script src="jquery-ui/jquery-ui.min.js" type="text/javascript"></script> -->
+	<script src="jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
 	<!-- Pour utiliser DateTables : <script src="js/jquery.dataTables.min.js" type="text/javascript"></script> -->
 	<script src="js/monJQ.js" type="text/javascript"></script>
 	
@@ -78,7 +78,7 @@ if ($req_courses) {
     </thead>
     <tbody>
 <?php foreach($courses as $tab_course){
-	echo "<tr>";
+	echo "<tr class='bougeable'>";
 		echo "<td>";
 		echo $tab_course['id_produit'];
 		echo "</td>";

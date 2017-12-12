@@ -11,4 +11,7 @@ $('#header').load('ajax/header.html');
 $('body').append('<footer id="footer"></footer>');
 $('#footer').load('ajax/footer.html');
 
+$('.bougeable').sortable();
+$('.bougeable').disableSelection();
+
 });
