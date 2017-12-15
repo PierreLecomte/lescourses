@@ -41,9 +41,10 @@ if (isset($_GET['tri']) && isset($_GET['ordre'])) {
 	echo"<br><br>";*/
 
 	$data = array(
+	"timestamp" => date('U'),
 	"tableau" => $T_affichage,
 	"nb_selec" => nb_selec(),
-	"nb_total" => nb_total()
+	"nb_total" => nb_total() 
 	);
 
 	echo json_encode($data);

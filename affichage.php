@@ -8,7 +8,6 @@
 	<link rel="stylesheet" type="text/css" href="jquery-ui/jquery-ui.css">
 	<!-- Pour utiliser DateTables : <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.min.css"> -->
 	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
-	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<script src="js/jquery.min.js" type="text/javascript"></script>
 	<!-- Pour utiliser jquery-ui : -->
 	<script src="jquery-ui/jquery-ui.min.js" type="text/javascript"></script> 
@@ -21,7 +20,7 @@
 
 
 <?php 	
-require_once("connexion.php");
+include_once("connexion.php");
 
 // Modifications des données en GET
 
@@ -58,10 +57,7 @@ if ($req_courses) {
 	<body>
 
 		<div class="container">
-			<div class="ui-widget">
-  <label for="tags">Tags: </label>
-  <input id="tags">
-</div>
+			
 			<h2 class="text-center p-5">Ma liste de courses</h2>
 			<table class="table table-striped text-center" data-tri="designation" data-ordre="ASC">
 				<thead>
@@ -75,7 +71,7 @@ if ($req_courses) {
 				</thead>
 				<tbody>
 
-					<!--
+					<!-- Ancien affichage en PHP, désormais réalisé en AJAX
 					<?php foreach($courses as $tab_course){
 						$id = $tab_course['id_produit'];
 						$nom = $tab_course['designation'];
@@ -85,6 +81,7 @@ if ($req_courses) {
 						echo afficher_ligne($id, $nom, $quantite, $selec);
 					}
 					?> -->
+
 				</tbody>
 			</table>
 
@@ -95,7 +92,7 @@ if ($req_courses) {
 				<p>Nombre total de produits : 
 					<span id="total_produits"><?php echo nb_total($bdd); ?></span>
 				</p>
-				<button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#ModalAjoutProduit">
+				<button type="button" id="bouton_ajouter" class="btn btn-primary float-right" data-toggle="modal" data-target="#ModalAjoutProduit">
 				Ajouter une ligne
 			</button>
 			</div>
@@ -116,7 +113,7 @@ if ($req_courses) {
 								<h3>Ajouter un produit</h3>
 								<div class="form-group">
 									<label class="col-form-label" for="form_designation">Désignation</label>
-									<input type="text" minlength="3" class="form-control" id="form_designation" placeholder="Entrer un nouveau produit">
+									<input type="text" class="form-control" id="form_designation" placeholder="Entrer un nouveau produit">
 								</div>
 								<div class="form-group">
 									<label class="col-form-label" for="curseur_quantite">Quantité</label>

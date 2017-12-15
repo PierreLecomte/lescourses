@@ -68,7 +68,7 @@ a:hover{
 	text-align: center;
 }
 
- #footer{
+#footer{
 	position:fixed; 	
 	bottom:0;
 	width:100%;
@@ -78,11 +78,11 @@ a:hover{
 	}
  }
 
- .fa-trash-o:hover, .fa-check:hover, .fa-square-o:hover, .fa-minus:hover, .fa-plus:hover, .fa-pencil:hover, .fa-sort:hover{
+.fa-trash-o:hover, .fa-check:hover, .fa-square-o:hover, .fa-minus:hover, .fa-plus:hover, .fa-pencil:hover, .fa-sort:hover{
  	cursor:pointer;
  }
 
-   #curseur_quantite {
+#curseur_quantite {
     width: 3em;
     height: 1.6em;
     top: 50%;
@@ -91,7 +91,11 @@ a:hover{
     line-height: 1.6em;
   }
 
-  i.fa-minus, i.fa-plus {
+i.fa-minus, i.fa-plus {
   	font-size:10px;
   	padding:5px;
   }
+
+ul.ui-autocomplete {
+ z-index: 9999999;
+}

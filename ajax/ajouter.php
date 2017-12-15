@@ -29,7 +29,11 @@ if (isset($_GET['designation']) && isset($_GET['quantite'])) {
 	$id = $bdd->lastInsertId();
 
 	$data = array(
-	"ligne" => afficher_ligne($id, $designation, $quantite, 0),
+	"ligne" => [
+		'id_produit' => $id, 
+		'designation' => $designation,
+		'quantite' => $quantite,
+		'selec' => 0],
 	"nb_selec" => nb_selec(),
 	"nb_total" => nb_total()
 	);

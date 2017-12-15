@@ -26,7 +26,6 @@ jQuery(function($) {
 
 	// Pour activer un événement sur un sélecteur imprécis dans un parent précis :
 	// $('.parent').on('click','fa', function(){
-		
 
 function afficher_ligne(id, nom, quantite, selec){
 
@@ -65,28 +64,80 @@ function afficher_ligne(id, nom, quantite, selec){
 	$('table tbody').append(ligne);
 }
 
+function afficher_tableau(choix_tri, choix_ordre){
+	$.ajax({
+				url : 'ajax/trier.php',
+				data : {
+					tri : choix_tri,
+					ordre : choix_ordre
+				},
+				dataType : 'json',
+				success: function(donnees_retour){
+					//console.log(donnees_retour['tableau']);
+					$('table tbody').html("");
+					$.each(donnees_retour.tableau, function(index, valeur){
+						afficher_ligne(valeur['id_produit'],valeur['designation'],valeur['quantite'],valeur['selec']);						
+					});
+				},
+				error: function(donnees_json){
+					$('table tbody').html("");
+					$.each(donnees_json.tableau, function(index, valeur){
+						afficher_ligne(valeur['id_produit'],valeur['designation'],valeur['quantite'],valeur['selec']);						
+					});
+				}
+			});
+}
 
-// Pour charger le tableau en jQuery
-$("h2").click(function(){
+// Pour afficher le tableau en jQuery
+function initialiser_tableau(){
+
 	choix_tri = $("table").attr('data-tri');
 	choix_ordre = $("table").attr('data-ordre');
-		$.ajax({
-			url : 'ajax/trier.php',
-			data : {
-				tri : choix_tri,
-				ordre : choix_ordre
-			},
-			dataType : 'json',
-			success: function(donnees_retour){
-				//console.log(donnees_retour['tableau']);
-				$('table tbody').html("");
-				$.each(donnees_retour.tableau, function(index, valeur){
-					afficher_ligne(valeur['id_produit'],valeur['designation'],valeur['quantite'],valeur['selec']);
-				});
-			}
-		});
-	});
+	if (localStorage.getItem('T_lesCourses')){
+		var T_recup = localStorage.getItem('T_lesCourses');
+// Il faut "parser" en JSON les données récupérées du local storage
+		T_recup = JSON.parse(T_recup);
+		var date_T_recup = T_recup.timestamp;
+	}
+	$.ajax({
+				url : 'ajax/trier.php',
+				data : {
+					tri : choix_tri,
+					ordre : choix_ordre
+				},
+				dataType : 'json',
+				success: function(donnees_retour){
+					console.log('connexion avec la BDD');
+// Si les données ont été modifiées depuis les données récupérées en local storage :
+					if(donnees_retour.timestamp != date_T_recup){
+						var liste_designation = new Array();
+						$.each(donnees_retour.tableau, function(index, valeur){
+							afficher_ligne(valeur['id_produit'],valeur['designation'],valeur['quantite'],valeur['selec']);
+							liste_designation.push(valeur['designation']);
+							donnees_json = donnees_retour;
+							liste_autocompletion = liste_designation;
+// On stocke en local storage les données JSON stringyfiées
+							localStorage.setItem('T_lesCourses',JSON.stringify(donnees_json));
+						});
+					}
+				},
+				error: function(){
+					console.log('hors ligne');
+					$.each(T_recup.tableau, function(index, valeur){
+						liste_designation.push(valeur['designation']);
+					});
+						donnees_json = T_recup;
+						liste_autocompletion = liste_designation;
+				}
+			});
+}
 
+
+// On charge le tableau trié selon les paramètres en attribut de la table :
+
+var donnees_json;
+var liste_autocompletion;
+initialiser_tableau();
 
 	// Lorsqu'on clique sur une case ou la corbeille, on récupère l'id de la ligne via data-id_produit et on lance une requete ajax
 	$('table').on('click', '.fcn_supprimer', function(){
@@ -100,6 +151,14 @@ $("h2").click(function(){
 				$('tr#id_' + id_clic).remove();
 				$('#nb_produits').text(donnees_retour.nb_selec);
 				$('#total_produits').text(donnees_retour.nb_total);
+			},
+			error: function(donnees_json){
+				console.log($.inArray(id_clic),donnees_json.tableau);
+
+				/*$.each(donnees_json.tableau, function(index, valeur){
+					
+
+				});*/
 			}
 		});
 	});
@@ -180,12 +239,17 @@ $("h2").click(function(){
 			},
 			dataType : 'json',
 			success: function(donnees_retour){
-				$('table tbody').append(donnees_retour.ligne);
+				var id = donnees_retour.ligne['id_produit'];
+				var designation = donnees_retour.ligne['designation'];
+				var quantite = donnees_retour.ligne['quantite'];
+				var selec = donnees_retour.ligne['selec'];
+				afficher_ligne(id, designation, quantite, selec);
 				$('#nb_produits').text(donnees_retour.nb_selec);
 				$('#total_produits').text(donnees_retour.nb_total);
 				$('#form_designation').val("");
 				$('#slider_quantite').slider( "value", 0);
 				$('#curseur_quantite').text('0');
+				liste_autocompletion.push(designation);
 			}
 		});
 	});
@@ -246,21 +310,8 @@ $("h2").click(function(){
 	$("table").on("click","i[data-tri]", function(){
 		choix_tri = $(this).attr('data-tri');
 		choix_ordre = $(this).hasClass('ord-asc') ? 'ASC' : 'DESC' ;
-		$.ajax({
-			url : 'ajax/trier.php',
-			data : {
-				tri : choix_tri,
-				ordre : choix_ordre
-			},
-			dataType : 'json',
-			success: function(donnees_retour){
-				//console.log(donnees_retour['tableau']);
-				$('table tbody').html("");
-				$.each(donnees_retour.tableau, function(index, valeur){
-					afficher_ligne(valeur['id_produit'],valeur['designation'],valeur['quantite'],valeur['selec']);
-				});
-			}
-		});
+		afficher_tableau(choix_tri,choix_ordre);
+		
 	// On récupère la colonne triée en attribut de la balise table
 	// On intervertit la classe ord-xx du bouton afin de pouvoir inverser l'ordre lors du prochain clic
 		$("table").attr('data-tri',choix_tri);
@@ -273,38 +324,16 @@ $("h2").click(function(){
 	});
 
 
-	// Autocomplete lorsqu'on écrit dans le champ "désignation"
+	$("#bouton_ajouter").on('click',function(){
+		$("#form_designation").autocomplete({source:liste_autocompletion});
+	});
 
-	    var availableTags = [
-      "ActionScript",
-      "AppleScript",
-      "Asp",
-      "BASIC",
-      "C",
-      "C++",
-      "Clojure",
-      "COBOL",
-      "ColdFusion",
-      "Erlang",
-      "Fortran",
-      "Groovy",
-      "Haskell",
-      "Java",
-      "JavaScript",
-      "Lisp",
-      "Perl",
-      "PHP",
-      "Python",
-      "Ruby",
-      "Scala",
-      "Scheme"
-    ];
-    $( "#tags" ).autocomplete({
-      source: availableTags
-    });
-
-});
-
-
+		/* Lancement manuel de la modal bootstrap (sans attribut 'data-target dans le html')
+		$("#bouton_ajouter").on('click',function(){
+		$('#ModalAjoutProduit').modal('toggle');
+	 	console.log('ok');
+	  	$("#form_designation").autocomplete({source:liste_autocompletion});
+		});*/
+	
 })
 
